@@ -37,7 +37,7 @@ g_s_show_code = "monolith"
 # Destination shot tree directory for sorting operations
 g_s_shot_tree_root = "/Volumes/monovfx/_vfx/SHOT_TREE"
 # Destination for invalid files
-g_s_invalid_file_dest = "/Volumes/monovfx/_vfx/SHOT_TREE/_z_to_be_sorted"
+g_s_invalid_file_dest = "/Volumes/monovfx/_vfx/SHOT_TREE/z_to_be_sorted"
 
 # Check to see if we are in DEV mode, if so, change the paths around to non-production ones
 try:
