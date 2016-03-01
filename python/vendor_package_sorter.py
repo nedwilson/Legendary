@@ -64,7 +64,7 @@ g_dict_token_assign = { '{sequence}' : re.compile(r'^([a-zA-Z]{3})'),
 						'{filehead}' : re.compile(r'^(.*)\.'),
 						'{fileext}' : re.compile(r'\.([a-zA-Z]{3,})$'),
 						'{fileextra}' : re.compile(r'^[a-zA-Z]{3}[0-9]{4}([a-zA-Z0-9_-]*)\.'),
-						'{version}' : re.compile(r'_v[0]*([1-9][0-9]*)'),
+						'{version}' : re.compile(r'_[vV][0]*([1-9][0-9]*)'),
 						'{frame}' : re.compile(r'\.([0-9]+)\.') }
 
 # List of valid files. Will contain a List of ValidFile objects. 						
