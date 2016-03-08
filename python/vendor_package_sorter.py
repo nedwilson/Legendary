@@ -49,7 +49,7 @@ except KeyError:
 	pass
 
 # Global boolean to determine if the destination sequence or shot should be uppercased
-g_b_dest_uc = True
+g_b_dest_uc = False
 g_lst_tags_uc = [ '{sequence}', '{shot}' ]
 
 # Regular expression to determine if a file is part of an image sequence
@@ -77,8 +77,11 @@ g_lst_invalid_files = []
 g_list_fileext_ignore = ['pdf', 'cdl', 'ale', 'edl', 'csv', 'xls', 'xlsx']
 
 # Unix command to create destination file, and arguments
-g_s_create_cmd = "/bin/cp"
-g_s_create_cmd_args = "-vf"
+# Uncomment below to copy instead of link
+# g_s_create_cmd = "/bin/cp"
+# g_s_create_cmd_args = "-vf"
+g_s_create_cmd = "/bin/ln"
+g_s_create_cmd_args = "-v"
 
 # ValidFile class definition
 class ValidFile:
