@@ -73,7 +73,7 @@ class BuildDailiesTimeline(QAction):
 		tl_bin.addItem(review_seq_bi)
 
 		vt_pos = 0
-		for qt_file in glob.glob(os.path.join(g_s_dailies_dir, '_vfx', '*.mov')):
+		for qt_file in sorted(glob.glob(os.path.join(g_s_dailies_dir, '_vfx', '*.mov'))):
 			tmp_basename = os.path.basename(qt_file).replace('_vfx', '').split('.')[0]
 			tmp_shot = os.path.basename(qt_file).split('_')[0]
 			tmp_seq = tmp_shot[0:3]
