@@ -36,6 +36,10 @@ class AddCCVideoTrack(QAction):
 			lutEffect = ccTrack.createEffect('OCIOFileTransform', timelineIn=ti.timelineIn(), timelineOut=ti.timelineOut())
 			lutEffect.node().knob('file').setValue(g_showLUT)
 
+		for ti in trackItems:
+			csrEffect = ccTrack.createEffect('OCIOColorSpace', timelineIn=ti.timelineIn(), timelineOut=ti.timelineOut())
+			csrEffect.node().knob('in_colorspace').setValue('Rec709')
+
     def eventHandler(self, event):
         enabled = True
         title = "Add CC Video Track"
