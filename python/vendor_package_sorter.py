@@ -157,13 +157,16 @@ class Rule:
 					if isinstance(self.i_s_valid, (list, tuple)):
 						l_b_loopmatch = False
 						for l_s_match in self.i_s_valid:
-							if l_s_match not in m_obj_valid_file.i_dict_tokens[key]:
-								l_b_loopmatch = True
-							else:
+							# print "%s match for %s"%(l_s_match, m_obj_valid_file.i_dict_tokens[key])
+							if re.search(l_s_match, m_obj_valid_file.i_dict_tokens[key]):
 								l_b_loopmatch = False
+								print "%s match for %s"%(l_s_match, m_obj_valid_file.i_dict_tokens[key])
+								break
+							else:
+								l_b_loopmatch = True
 						l_b_retval = l_b_loopmatch
 					else:
-						if self.i_s_valid not in m_obj_valid_file.i_dict_tokens[key]:
+						if not re.search(self.i_s_valid, m_obj_valid_file.i_dict_tokens[key]):
 							l_b_retval = True
 		if l_b_retval:
 			l_s_output_path = self.i_s_output_path
@@ -176,7 +179,7 @@ class Rule:
 # Rule Definitions
 g_lst_rules = [ Rule('{fileext}', Rule.IS_EQUAL_TO, 'exr', '%s/{sequence}/{shot}/2k/{shot}{fileextra}/{shot}{fileextra}.{frame}.{fileext}'%g_s_shot_tree_root),
 				Rule('{fileext}', Rule.IS_EQUAL_TO, 'mov', '%s/{sequence}/{shot}/output/{shot}{fileextra}.{fileext}'%g_s_shot_tree_root),
-				Rule('{filehead}', Rule.DOES_NOT_CONTAIN, ['comp','temp'], '%s/{sequence}/{shot}/element/{shot}{fileextra}/{shot}{fileextra}.{frame}.{fileext}'%g_s_shot_tree_root) ]
+				Rule('{filehead}', Rule.DOES_NOT_CONTAIN, ['comp','temp', '_v[0-9]{3}_[0-9]{6}', '_ttf[0-9]{3}'], '%s/{sequence}/{shot}/element/{shot}{fileextra}/{shot}{fileextra}.{frame}.{fileext}'%g_s_shot_tree_root) ]
 
 # Program usage instructions, to be printed when the command line is in error				
 def usage():
@@ -288,9 +291,9 @@ if __name__ == "__main__":
 		print ""
 		for validfile in l_lst_rules_match:
 			print "INFO: Creating %s"%validfile.i_s_dest_file_path
-			if not os.path.exists(os.path.dirname(validfile.i_s_dest_file_path)):
-				os.makedirs(os.path.dirname(validfile.i_s_dest_file_path))
-			subprocess.call([g_s_create_cmd, g_s_create_cmd_args, validfile.i_s_src_file_path, validfile.i_s_dest_file_path])
+			#if not os.path.exists(os.path.dirname(validfile.i_s_dest_file_path)):
+			#	os.makedirs(os.path.dirname(validfile.i_s_dest_file_path))
+			#subprocess.call([g_s_create_cmd, g_s_create_cmd_args, validfile.i_s_src_file_path, validfile.i_s_dest_file_path])
 
 	# link or copy all valid files that did not match sorting rules
 	if len(l_lst_no_rules_match) > 0:
@@ -299,9 +302,9 @@ if __name__ == "__main__":
 		print ""
 		for validfile in l_lst_no_rules_match:
 			print "INFO: Creating %s"%validfile.i_s_dest_file_path
-			if not os.path.exists(os.path.dirname(validfile.i_s_dest_file_path)):
-				os.makedirs(os.path.dirname(validfile.i_s_dest_file_path))
-			subprocess.call([g_s_create_cmd, g_s_create_cmd_args, validfile.i_s_src_file_path, validfile.i_s_dest_file_path])
+			#if not os.path.exists(os.path.dirname(validfile.i_s_dest_file_path)):
+			#	os.makedirs(os.path.dirname(validfile.i_s_dest_file_path))
+			#subprocess.call([g_s_create_cmd, g_s_create_cmd_args, validfile.i_s_src_file_path, validfile.i_s_dest_file_path])
 
 	# link or copy all invalid files
 	if len(g_lst_invalid_files) > 0:
@@ -310,9 +313,9 @@ if __name__ == "__main__":
 		print ""
 		for invalidfile in g_lst_invalid_files:
 			print "INFO: Creating %s"%invalidfile.i_s_dest_file_path
-			if not os.path.exists(os.path.dirname(invalidfile.i_s_dest_file_path)):
-				os.makedirs(os.path.dirname(invalidfile.i_s_dest_file_path))
-			subprocess.call([g_s_create_cmd, g_s_create_cmd_args, invalidfile.i_s_src_file_path, invalidfile.i_s_dest_file_path])
+			#if not os.path.exists(os.path.dirname(invalidfile.i_s_dest_file_path)):
+			#	os.makedirs(os.path.dirname(invalidfile.i_s_dest_file_path))
+			#subprocess.call([g_s_create_cmd, g_s_create_cmd_args, invalidfile.i_s_src_file_path, invalidfile.i_s_dest_file_path])
 
 	print ""
 	print "INFO: DONE!"
