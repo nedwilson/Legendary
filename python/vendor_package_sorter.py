@@ -132,6 +132,7 @@ class Rule:
 	IS_NOT_EQUAL_TO = 1
 	# CONTAINS not yet implemented.
 	CONTAINS = 2
+	DOES_NOT_CONTAIN = 3
 	
 	# Rule constructor. Used to define an equality test and a successful output path, which is tokenized.
 	# Example usage:
@@ -151,6 +152,19 @@ class Rule:
 				if self.i_int_test == self.IS_EQUAL_TO:
 					if m_obj_valid_file.i_dict_tokens[key] == self.i_s_valid:
 						l_b_retval = True
+				elif self.i_int_test == self.DOES_NOT_CONTAIN:
+					# if the match is a list and not a string, loop through.
+					if isinstance(self.i_s_valid, (list, tuple)):
+						l_b_loopmatch = False
+						for l_s_match in self.i_s_valid:
+							if l_s_match not in m_obj_valid_file.i_dict_tokens[key]:
+								l_b_loopmatch = True
+							else:
+								l_b_loopmatch = False
+						l_b_retval = l_b_loopmatch
+					else:
+						if self.i_s_valid not in m_obj_valid_file.i_dict_tokens[key]:
+							l_b_retval = True
 		if l_b_retval:
 			l_s_output_path = self.i_s_output_path
 			for key in m_obj_valid_file.i_dict_tokens:
@@ -161,7 +175,8 @@ class Rule:
 			
 # Rule Definitions
 g_lst_rules = [ Rule('{fileext}', Rule.IS_EQUAL_TO, 'exr', '%s/{sequence}/{shot}/2k/{shot}{fileextra}/{shot}{fileextra}.{frame}.{fileext}'%g_s_shot_tree_root),
-				Rule('{fileext}', Rule.IS_EQUAL_TO, 'mov', '%s/{sequence}/{shot}/output/{shot}{fileextra}.{fileext}'%g_s_shot_tree_root) ]
+				Rule('{fileext}', Rule.IS_EQUAL_TO, 'mov', '%s/{sequence}/{shot}/output/{shot}{fileextra}.{fileext}'%g_s_shot_tree_root),
+				Rule('{filehead}', Rule.DOES_NOT_CONTAIN, ['comp','temp'], '%s/{sequence}/{shot}/element/{shot}{fileextra}/{shot}{fileextra}.{frame}.{fileext}'%g_s_shot_tree_root) ]
 
 # Program usage instructions, to be printed when the command line is in error				
 def usage():
